@@ -92,6 +92,84 @@ router.route('/login')
 
 
 
+
+
+router.route('/follow')
+    .post(passport.authenticate('jwt', { session: false }),
+        (req,res)=>{
+        console.log('inside follow!!!!!!!!!!!!!!!!!!')
+            User.findOneAndUpdate(
+                {
+                    _id: req.user.id
+                },
+                {
+                    $push: { following: req.body.userId}
+                },
+                { new: true })
+                .then(user => {
+                    User.findOneAndUpdate(
+                        {
+                            _id: req.body.userId
+                        },
+                        {
+                            $push: { followers: req.user.id }
+                        },
+                        { new: true })
+                        .then(user => res.json({ userId: req.body.userId }))
+                        .catch(err => console.log(err))
+                })
+                .catch(err => console.log(err))
+        });
+
+
+
+
+router.route('/unfollow')
+    .post(passport.authenticate('jwt', { session: false }),
+        (req,res)=>{
+            User.findOneAndUpdate(
+                {
+                    _id: req.user.id
+                },
+                {
+                    $pull: { following: req.body.userId}
+                },
+                { new: true })
+                .then(user => {
+                    User.findOneAndUpdate(
+                        {
+                            _id: req.body.userId
+                        },
+                        {
+                            $pull: { followers: req.user.id }
+                        },
+                        { new: true })
+                        .then(user => res.json({ userId: req.body.userId }))
+                        .catch(err => console.log(err))
+                })
+                .catch(err => console.log(err))
+        });
+
+
+
+
+router.route('/search')
+    .get((req,res)=>{
+        User.findOne(
+            {
+                $or: [
+                    { email: req.body.text },
+                    { username: req.body.text },
+                ]
+            }
+        )
+            .then(user => res.json({ userId: user._id }))
+            .catch(err => console.log(err))
+
+    });
+
+
+
 router.route('/:id')
     .get((req,res)=>{
         User.findById(req.params.id)
