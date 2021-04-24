@@ -10,6 +10,7 @@ const passport = require('passport');
 ** ROUTES
  */
 const users = require('./routes/users.js');
+const posts = require('./routes/posts.js');
 
 /*
 ** SETUP ENVIRONMENT
@@ -38,6 +39,7 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 app.use('/api/users', users);
+app.use('/api/posts', posts);
 
 
 /*
