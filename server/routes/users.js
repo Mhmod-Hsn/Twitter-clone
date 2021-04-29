@@ -66,7 +66,9 @@ router.route('/login')
                                             user: {
                                                 _id: user._id,
                                                 email: user.email,
-                                                username: user.username
+                                                username: user.username,
+                                                followers:user.followers,
+                                                following:user.following
                                             }
                                         })
                                     })
