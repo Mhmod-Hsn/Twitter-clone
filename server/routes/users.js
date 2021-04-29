@@ -62,7 +62,11 @@ router.route('/login')
                                     function (err,token) {
                                         return res.json({
                                             success: true,
-                                            token: token
+                                            token: token,
+                                            user: {
+                                                email: user.email,
+                                                username: user.username
+                                            }
                                         })
                                     })
                             } else {
@@ -71,22 +75,9 @@ router.route('/login')
                             }
                         });
                 } else {
-                    errors.email = 'use not found';
+                    errors.email = 'user not found';
                     return res.status(404).json(errors);
                 }
-                bcrypt.genSalt(10, function (err, salt) {
-                    bcrypt.hash(req.body.password, salt, function (err,hash) {
-                        const newUser = new User({
-                            email: req.body.email,
-                            username: req.body.username,
-                            password: hash
-                        })
-
-                        newUser.save()
-                            .then(newUser => res.json(newUser))
-                            .catch(err => console.log(err))
-                    })
-                })
             })
     });
 
@@ -97,7 +88,6 @@ router.route('/login')
 router.route('/follow')
     .post(passport.authenticate('jwt', { session: false }),
         (req,res)=>{
-        console.log('inside follow!!!!!!!!!!!!!!!!!!')
             User.findOneAndUpdate(
                 {
                     _id: req.user.id
