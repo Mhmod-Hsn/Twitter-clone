@@ -20,7 +20,8 @@ router.route('/add')
                     id: req.user.id,
                     username: req.user.username,
                 },
-                text: text
+                text: text,
+                createdAt: Date.now()
             });
 
             newPost.save()

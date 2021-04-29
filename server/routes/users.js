@@ -147,7 +147,7 @@ router.route('/unfollow')
 
 
 router.route('/search')
-    .get((req,res)=>{
+    .post((req,res)=>{
         User.findOne(
             {
                 $or: [
@@ -156,8 +156,15 @@ router.route('/search')
                 ]
             }
         )
-            .then(user => res.json({ userId: user._id }))
-            .catch(err => console.log(err))
+            .then(user => {
+                console.log(user)
+                if (user){
+                    res.json({ userId: user._id })
+                }
+                res.status(404).json({message: 'not found'})
+
+            })
+            .catch(err => console.log(err) )
 
     });
 
