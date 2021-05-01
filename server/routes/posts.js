@@ -55,10 +55,11 @@ router.route('/add')
                     id: req.user.id,
                     username: req.user.username,
                 },
-                text: req.body.text,
-                postImage: req.file.path,
+                text: req.body.text || null,
+                postImage: req.file? req.file.path : null,
                 createdAt: Date.now()
             });
+
 
             newPost.save()
                 .then(post => res.json(post))
