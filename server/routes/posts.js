@@ -7,28 +7,62 @@ const passport = require('passport');
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
 
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function (req,file,cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, new Date().getTime() + '--' + file.originalname)
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    // reject
+    if (['image/jpeg','image/png'].indexOf(file.mimetype) > -1){
+        cb(null,true)
+    } else {
+        cb(null,false)
+    }
+}
+
+const limits = {
+    fileSize: 1024*1024*1
+}
+
+
+// multer options
+const upload = multer({
+    storage,
+    limits,
+    fileFilter
+});
+
+
+
 
 router.route('/add')
-    .post(passport.authenticate(
+    .post(
+        upload.single('postImage'),
+        passport.authenticate(
         'jwt',
         {session: false}),
         (req, res) => {
-            const text = req.body.text.trim();
 
             const newPost = new Post({
                 user: {
                     id: req.user.id,
                     username: req.user.username,
                 },
-                text: text,
+                text: req.body.text,
+                postImage: req.file.path,
                 createdAt: Date.now()
             });
 
             newPost.save()
                 .then(post => res.json(post))
                 .catch(err => console.log(err))
-
-
         });
 
 

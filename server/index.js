@@ -6,6 +6,7 @@ const cors = require('cors');
 const passport = require('passport');
 
 
+
 /*
 ** ROUTES
  */
@@ -16,7 +17,6 @@ const posts = require('./routes/posts.js');
 ** SETUP ENVIRONMENT
  */
 dotenv.config();
-
 
 
 /*
@@ -30,6 +30,8 @@ mongoose.connect(process.env.MONGODB_URL, {
 
 
 const app = express();
+app.use('/uploads',express.static('uploads'));
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -38,6 +40,8 @@ app.use(cors());
 
 app.use(passport.initialize());
 require('./config/passport')(passport);
+
+
 
 app.use('/api/users', users);
 app.use('/api/posts', posts);
