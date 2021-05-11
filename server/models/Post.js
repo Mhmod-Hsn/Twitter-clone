@@ -14,6 +14,10 @@ const postSchema = new Schema({
         type: String,
         required: false
     },
+    tags:{
+        type: Array,
+        required: false
+    },
     createdAt: {
         type: Date,
         default: Date.now()

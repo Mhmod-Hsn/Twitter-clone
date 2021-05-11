@@ -56,6 +56,7 @@ router.route('/add')
                     username: req.user.username,
                 },
                 text: req.body.text || null,
+                tags: req.body.tags.split(',') || null,
                 postImage: req.file? req.file.path : null,
                 createdAt: Date.now()
             });
