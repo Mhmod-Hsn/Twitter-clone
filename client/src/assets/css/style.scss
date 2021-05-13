@@ -1,0 +1,86 @@
+@import "bootstrap.min.css";
+
+
+
+body{
+  background-color: #eee;
+  //background-color: var(--bs-gray-dark);
+}
+
+.bg-image{
+  background-repeat: no-repeat!important;
+}
+.bg-cover{
+  background-size: cover!important;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+
+
+  input {
+    display: none;
+  }
+  label {
+    display: block;
+    width: 48px;
+    height: 24px;
+    text-indent: -150%;
+    clip: rect(0 0 0 0);
+    color: transparent;
+    user-select: none;
+  }
+  label::before,
+  label::after {
+    content: "";
+    display: block;
+    position: absolute;
+    cursor: pointer;
+  }
+  label::before {
+    width: 100%;
+    height: 100%;
+    background-color: #dedede;
+    border-radius: 9999em;
+    -webkit-transition: background-color 0.25s ease;
+    transition: background-color 0.25s ease;
+  }
+  label::after {
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.45);
+    -webkit-transition: left 0.25s ease;
+    transition: left 0.25s ease;
+  }
+  input:checked + label::before {
+    background-color: var(--bs-primary);
+  }
+  input:checked + label::after {
+    left: 24px;
+  }
+}
+
+
+
+.form-signin{
+  input{
+    background-color: rgba(0,0,0,0.05);
+    border: 0;
+    //color: rgba(255,255,255,0.8);
+
+    &:focus{
+      //background-color: rgba(0,0,0,0.5);
+      //color: rgba(255,255,255,0.8);
+
+    }
+  }
+  label{
+    //color: rgba(255,255,255,0.8);
+  }
+}

@@ -1,0 +1,7 @@
+@import "_animation.scss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
