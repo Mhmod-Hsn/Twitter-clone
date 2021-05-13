@@ -81,10 +81,14 @@ export default {
       activeUser: "auth/AppActiveUser",
     }),
     imgURL() {
+      const URL =
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:5000/"
+          : "https://iti-nodejs.herokuapp.com/";
       let img = this.post.postImage;
       if (img) {
         img = img.replaceAll(String.fromCharCode(92), "/");
-        return `http://localhost:5000/${img}`;
+        return `${URL}${img}`;
       }
       return null;
     },
